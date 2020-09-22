@@ -66,7 +66,7 @@ class PersonasController extends Controller
      */
     public function edit($id)
     {
-        //
+        return false;
     }
 
     /**
@@ -76,9 +76,12 @@ class PersonasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Persona $persona)
     {
-        //
+
+        $persona->update($request->all());
+
+        return response()->json($persona);
     }
 
     /**

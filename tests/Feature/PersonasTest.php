@@ -63,4 +63,23 @@ class PersonasTest extends TestCase
 
             $this->assertDatabaseHas('personas',['nombre' => 'Diego']);
      }
+
+     /** @test */
+     public function se_puede_editar_una_persona()
+     {
+         $persona = factory(Persona::class)->create();
+
+         $fields = [
+            'nombre' => 'Diego',
+            'telefono' => '0991269947'
+         ];
+
+         $response = $this->json('PUT',route('personas.update',$persona->id),$fields);
+         $response->assertStatus(200)
+                ->assertJson([
+                  'nombre' => 'Diego'
+                ]);
+
+         $this->assertDatabaseHas('personas', ['nombre' => 'Diego', 'telefono' => '0991269947']);       
+     }
 }
