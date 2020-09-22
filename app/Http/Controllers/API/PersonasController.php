@@ -31,7 +31,7 @@ class PersonasController extends Controller
      */
     public function create()
     {
-        //
+        return false;
     }
 
     /**
@@ -42,7 +42,9 @@ class PersonasController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request);
+        $persona = $this->personas->create($request->all());
+
+        return response()->json($persona,201);
     }
 
     /**
@@ -53,7 +55,7 @@ class PersonasController extends Controller
      */
     public function show($id)
     {
-        //
+        return false;
     }
 
     /**

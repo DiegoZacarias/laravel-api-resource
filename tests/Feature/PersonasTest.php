@@ -40,21 +40,27 @@ class PersonasTest extends TestCase
                     ]);
      }
 
-     // /** @test */
-     // public function se_pueden_agregar_personas()
-     // {
-     //        $fields = [
-     //            'nombre' => 'Diego',
-     //            'apellido' => 'Zacarias',
-     //            'ci' => '5309590',
-     //            'telefono' => '0991269947'
-     //        ];
+     /** @test */
+     public function se_pueden_agregar_personas()
+     {
+            $fields = [
+                'nombre' => 'Diego',
+                'apellido' => 'Zacarias',
+                'documento' => '5309590',
+                'telefono' => '0991269947'
+            ];
 
-     //        $this->withoutExceptionHandling();
+            $this->withoutExceptionHandling();
 
-     //        $response = $this->json('POST',route('personas.store',$fields));
-     //        $response->assertStatus(201);
+            $response = $this->json('POST',route('personas.store',$fields));
+            $response->assertStatus(201)
+                    ->assertJson([
+                      'nombre' => 'Diego',
+                      'apellido' => 'Zacarias',
+                      'documento' => '5309590',
+                      'telefono' => '0991269947'
+                    ]);
 
-     //        $this->assertDatabaseHas('personas',['nombre' => 'Diego']);
-     // }
+            $this->assertDatabaseHas('personas',['nombre' => 'Diego']);
+     }
 }
