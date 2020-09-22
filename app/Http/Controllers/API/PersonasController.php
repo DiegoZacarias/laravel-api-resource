@@ -97,4 +97,11 @@ class PersonasController extends Controller
 
         return response()->json('Registro eliminado correctamente',204);
     }
+
+    public function buscar(Request $request)
+    {
+        $personas = $this->personas->where('nombre', 'LIKE', '%' . $request->q . '%')->get();
+
+        return response()->json($personas);
+    }
 }

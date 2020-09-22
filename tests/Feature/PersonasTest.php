@@ -95,4 +95,22 @@ class PersonasTest extends TestCase
 
         $this->assertDatabaseMissing('personas', ['nombre' => $persona->nombre]);
      }
+
+     /** @test */
+     public function se_puede_buscar_personas()
+     {
+         factory(Persona::class,10)->create();
+         $persona = factory(Persona::class)->create(['nombre' => 'Diego']);
+         
+         $palabra_buscada = ['q'=>'Diego'];
+         $this->withoutExceptionHandling();
+
+         $response = $this->json('GET',route('personas.buscar',$palabra_buscada));
+         $response->assertStatus(200)
+                ->assertJson(
+                    [
+                     [ 'nombre' => 'Diego']
+                    ]
+                );
+     }
 }
