@@ -82,4 +82,17 @@ class PersonasTest extends TestCase
 
          $this->assertDatabaseHas('personas', ['nombre' => 'Diego', 'telefono' => '0991269947']);       
      }
+
+     /** @test */
+     public function se_puede_eliminar_una_persona()
+     {
+        $persona = factory(Persona::class)->create();
+
+        $this->withoutExceptionHandling();
+        $response = $this->json('DELETE',route('personas.destroy',$persona->id));
+        $response->assertStatus(204);
+        // dd($response);
+
+        $this->assertDatabaseMissing('personas', ['nombre' => $persona->nombre]);
+     }
 }

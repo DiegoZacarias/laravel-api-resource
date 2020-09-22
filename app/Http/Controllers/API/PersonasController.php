@@ -90,8 +90,11 @@ class PersonasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Persona $persona)
     {
-        //
+
+        $persona->delete();
+
+        return response()->json('Registro eliminado correctamente',204);
     }
 }
