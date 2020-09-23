@@ -72,7 +72,8 @@ class PersonasTest extends TestCase
 
          $fields = [
             'nombre' => 'Diego',
-            'telefono' => '0991269947'
+            'telefono' => '0991269947',
+            'documento' => '123456789'
          ];
 
          $response = $this->json('PUT',route('personas.update',$persona->id),$fields);
@@ -116,7 +117,7 @@ class PersonasTest extends TestCase
      }
 
      /** @test */
-     public function persona_requires_nombre()
+     public function persona_requires_nombre_para_crear()
      {
              $fields = [
                 'nombre' => '',
@@ -126,9 +127,54 @@ class PersonasTest extends TestCase
              ];
 
              $response = $this->json('POST',route('personas.store',$fields));
-             $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY); //Status 422 
-             // $response->assertSessionHasErrors('nombre');
+             $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)      //Status 422
+                    ->assertJsonPath('errors.nombre', ['El campo nombre es obligatorio.']);  
+     }
 
-             // $this->post($url,$fields->toArray())->assertSessionHasErrors('name');  
+     /** @test */
+     public function persona_requires_documento_para_crear()
+     {
+             $fields = [
+                'nombre' => $this->faker->name,
+                'apellido' => $this->faker->lastname,
+                'documento' => '',
+                'telefono' => '0991269947'
+             ];
+
+            $response= $this->json('POST',route('personas.store',$fields));
+            $response->assertStatus(422)
+                    ->assertJsonPath('errors.documento',['El campo documento es obligatorio.']);
+     }
+
+     /** @test */
+     public function persona_requires_nombre_para_actualizar()
+     {
+        $persona = factory(Persona::class)->create();
+
+        $fields = [
+           'nombre' => '',
+           'telefono' => '0991269947',
+           'documento' => '123456789'
+        ];
+
+        $response = $this->json('PUT',route('personas.update',$persona->id),$fields);
+        $response->assertStatus(422)
+               ->assertJsonPath('errors.nombre',['El campo nombre es obligatorio.']);
+     }
+
+     /** @test */
+     public function persona_requires_documento_para_actualizar()
+     {
+        $persona = factory(Persona::class)->create();
+
+        $fields = [
+           'nombre' => 'diego',
+           'telefono' => '0991269984',
+           'documento' => ''
+        ];
+
+        $response = $this->json('PUT',route('personas.update',$persona->id),$fields);
+        $response->assertStatus(422)
+               ->assertJsonPath('errors.documento',['El campo documento es obligatorio.']);
      }
 }
