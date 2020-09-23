@@ -5,11 +5,12 @@ namespace Tests\Feature;
 use App\Persona;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
+use Illuminate\Http\Response;
 use Tests\TestCase;
 
 class PersonasTest extends TestCase
 {
-     use RefreshDatabase;
+     use RefreshDatabase, WithFaker;
 
      /** @test */
      public function se_pueden_listar_personas()
@@ -112,5 +113,22 @@ class PersonasTest extends TestCase
                      [ 'nombre' => 'Diego']
                     ]
                 );
+     }
+
+     /** @test */
+     public function persona_requires_nombre()
+     {
+             $fields = [
+                'nombre' => '',
+                'apellido' => $this->faker->lastname,
+                'documento' => '5309590',
+                'telefono' => '0991269947'
+             ];
+
+             $response = $this->json('POST',route('personas.store',$fields));
+             $response->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY); //Status 422 
+             // $response->assertSessionHasErrors('nombre');
+
+             // $this->post($url,$fields->toArray())->assertSessionHasErrors('name');  
      }
 }

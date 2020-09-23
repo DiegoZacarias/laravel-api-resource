@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use App\Persona;
 use Illuminate\Http\Request;
+use App\Http\Requests\PersonaRequest;
 
 class PersonasController extends Controller
 {
@@ -40,7 +41,7 @@ class PersonasController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(PersonaRequest $request)
     {
         $persona = $this->personas->create($request->all());
 
@@ -76,7 +77,7 @@ class PersonasController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Persona $persona)
+    public function update(PersonaRequest $request, Persona $persona)
     {
 
         $persona->update($request->all());
