@@ -181,5 +181,6 @@ return [
         'title'                 => 'título',
         'username'              => 'usuario',
         'year'                  => 'año',
+        'q'                     => 'buscar',
     ],
 ];

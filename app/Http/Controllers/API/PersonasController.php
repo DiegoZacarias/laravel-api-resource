@@ -101,6 +101,19 @@ class PersonasController extends Controller
 
     public function buscar(Request $request)
     {
+        // $request->validate([
+        //     'q' => 'required'
+
+        // ]);
+
+        $validator = \Validator::make($request->all(),[
+            'q' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json(['errors'=>$validator->errors()]);
+        }
+
         $personas = $this->personas->where('nombre', 'LIKE', '%' . $request->q . '%')->get();
 
         return response()->json($personas);

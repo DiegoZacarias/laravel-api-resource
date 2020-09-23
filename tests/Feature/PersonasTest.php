@@ -177,4 +177,18 @@ class PersonasTest extends TestCase
         $response->assertStatus(422)
                ->assertJsonPath('errors.documento',['El campo documento es obligatorio.']);
      }
+
+     /** @test */
+     public function funcion_buscar_requires_q_para_buscar_personas()
+     {
+        $persona = factory(Persona::class)->create(['nombre' => 'Diego']);
+         
+         $palabra_buscada = ['q'=>''];
+         $this->withoutExceptionHandling();
+
+         $response = $this->json('GET',route('personas.buscar',$palabra_buscada));
+         $response->assertStatus(200)
+                ->assertJsonPath('errors.q',['El campo buscar es obligatorio.']);
+                
+     }
 }
