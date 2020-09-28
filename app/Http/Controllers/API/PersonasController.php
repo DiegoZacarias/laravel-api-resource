@@ -101,11 +101,6 @@ class PersonasController extends Controller
 
     public function buscar(Request $request)
     {
-        // $request->validate([
-        //     'q' => 'required'
-
-        // ]);
-
         $validator = \Validator::make($request->all(),[
             'q' => 'required'
         ]);
